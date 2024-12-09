@@ -68,7 +68,6 @@
 #include "nanovg_gl_utils.h"
 
 #define NANOVG_SW_IMPLEMENTATION
-#define NVGSW_QUIET_FRAME
 #include "nanovg_sw.h"
 
 #if PLATFORM_ANDROID || PLATFORM_EMSCRIPTEN
@@ -381,6 +380,11 @@ int SDL_main(int argc, char* argv[])
 #if USE_GL_BLITTER
     // note that OpenGL loader is not needed for Mac
     sdlContext = SDL_GL_CreateContext(sdlWindow);
+#if PLATFORM_WIN || PLATFORM_LINUX
+    bool glLoadOK = gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress);
+    if(!glLoadOK)
+      PLATFORM_LOG("gladLoadGLLoader failed\n");
+#endif
     swBlitter = nvgswuCreateBlitter();
 #endif
     nvgContext = nvgswCreate(nvgFlags);

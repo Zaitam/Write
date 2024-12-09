@@ -317,11 +317,4 @@ include Makefile.unix
 # rm -r /usr/share/locale/*
 # rm -r /usr/share/doc/*
 
-# building (TODO: create make rule for this!):
-# cd ~
-# sudo mount --bind styluslabs build-chroot/home/mwhite/styluslabs/
-# sudo chroot --userspec=mwhite:mwhite /home/mwhite/build-chroot/ /bin/bash -c "cd /home/mwhite/styluslabs/syncscribble && make DEBUG=0 BUILDDIR=LinuxRel tgz"
-# and: cd /home/mwhite/styluslabs/SDL && make -f ../scribbleres/SDL-Makefile.unix DEBUG=0 BUILDDIR=LinuxRel
-# sudo umount build-chroot/home/mwhite/styluslabs
-
 endif
