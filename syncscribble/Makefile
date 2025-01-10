@@ -74,7 +74,7 @@ INC = . .. ../nanovgXC/src ../nanovgXC/glad
 INCSYS = ../pugixml/src ../stb
 
 MAJORVER := 3
-MINORVER := 0
+MINORVER := 1
 #HGREV := $(shell hg id -n)
 GITREV := $(shell git rev-parse --short HEAD || wsl git rev-parse --short HEAD)
 GITCOUNT := $(shell git rev-list --count HEAD || wsl git rev-list --count HEAD)
@@ -123,7 +123,8 @@ LIBS += $(SDL_LIB)
 FORCECPP = ../layout/layout.obj
 
 # distribution package
-ZIPFILE = write$(GITCOUNT).zip
+MSIFILE = write-$(GITREV).msi
+ZIPFILE = write-$(GITREV).zip
 ZIPDIR = Write
 DISTRES = \
   ..\scribbleres\fonts\Roboto-Regular.ttf \

@@ -75,7 +75,7 @@ BUILDDIRSMADE=$(BUILDDIRS:%=%.made)
 # packaging
 ZIP = $(BUILDDIR)/$(ZIPFILE)
 WIXBASE=$(basename $(WXS))
-MSI = $(BUILDDIR)/$(WIXBASE).msi
+MSI = $(BUILDDIR)/$(MSIFILE)
 
 .PHONY: all zip msi clean distclean
 
@@ -120,7 +120,7 @@ $(MSI): $(TGT) $(DISTRES)
 	cmd /C for %I in ( $(DISTRES) ) do copy %I $(BUILDDIR)\$(ZIPDIR)
 	$(WIXCANDLE) -arch x64 -dProductVersion="$(APPVERSION)" -out $(BUILDDIR)\$(ZIPDIR)\$(WIXBASE).wixobj $(WXS)
 	(cd $(BUILDDIR)\$(ZIPDIR) && $(WIXLIGHT) -ext WixUIExtension -cultures:en-us -out $(WIXBASE).msi $(WIXBASE).wixobj)
-	move $(BUILDDIR)\$(ZIPDIR)\$(WIXBASE).msi $(BUILDDIR)
+	move $(BUILDDIR)\$(ZIPDIR)\$(WIXBASE).msi $(MSI)
 	rmdir /s /q $(BUILDDIR)\$(ZIPDIR)
 
 # | (pipe) operator causes make to just check for existence instead of timestamp
