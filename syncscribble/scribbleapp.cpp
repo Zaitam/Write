@@ -2760,6 +2760,10 @@ cleanup:
 
 void ScribbleApp::runTestUI(std::string runtype)
 {
+  if(!cfg->Int("glRender")) {
+    messageBox(Error, "Cannot run tests", "Tests require GL renderer.");
+    return;
+  }
   messageBox(Info, "Test Results - " + runtype, runTest(runtype));
 }
 

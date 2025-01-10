@@ -4,6 +4,7 @@
 #include "ulib/miniz_gzip.h"
 #include "page.h"
 #include "syncundo.h"
+#include "pugixml.hpp"
 
 struct DocPosition {
   int pagenum;

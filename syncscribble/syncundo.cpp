@@ -1,6 +1,7 @@
 #include "syncundo.h"
 #include "document.h"
 #include "basics.h"
+#include "usvg/svgxml.h"
 
 StrokeUndoItem::StrokeUndoItem(Element* s_, Page* p_) : s(s_), page(p_) {}
 

@@ -1,6 +1,7 @@
 #include "selection.h"
 #include "document.h"
 #include "basics.h"
+#include "usvg/svgxml.h"
 
 // Selection:
 // Basic procedure:
