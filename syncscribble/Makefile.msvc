@@ -22,8 +22,8 @@ LDFLAGS = /SUBSYSTEM:WINDOWS
 RC = rc
 RCFLAGS = /DVERSIONSTR=\"$(APPVERSION)\" /DVERSIONCSV="$(MAJORVER),$(MINORVER),$(GITCOUNT),0"
 # WiX - tool for creating MSI installer
-WIXCANDLE = "c:\Program Files (x86)\WiX Toolset v3.11\bin\candle.exe"
-WIXLIGHT = "c:\Program Files (x86)\WiX Toolset v3.11\bin\light.exe"
+WIXCANDLE = "c:\Program Files (x86)\WiX Toolset v3.14\bin\candle.exe"
+WIXLIGHT = "c:\Program Files (x86)\WiX Toolset v3.14\bin\light.exe"
 
 DEBUG ?= 0
 ifneq ($(DEBUG), 0)
@@ -66,14 +66,14 @@ QUOTEOBJ=$(SRCBASE:%="$(OBJDIR)/%.obj")
 DEPS=$(SRCBASE:%=$(OBJDIR)/%.d)
 RESBASE=$(basename $(RESOURCES))
 RES=$(RESBASE:%=$(OBJDIR)/%.res)
-TGT=$(BUILDDIR)/$(TARGET)
+TGT=$(BUILDDIR)\$(TARGET)
 # compiler will not create directories, so depend on existence of all directories in output folder
 # sort removes duplicates (which cause make error)
 BUILDDIRS=$(sort $(dir $(OBJ)))
 # on Windows, existence check doesn't work for directories (?), so use an empty file in each directory instead
 BUILDDIRSMADE=$(BUILDDIRS:%=%.made)
 # packaging
-ZIP =  $(BUILDDIR)/$(ZIPFILE)
+ZIP = $(BUILDDIR)/$(ZIPFILE)
 WIXBASE=$(basename $(WXS))
 MSI = $(BUILDDIR)/$(WIXBASE).msi
 
@@ -109,17 +109,18 @@ $(TGT): $(OBJ) $(RES)
 
 $(ZIP): $(TGT) $(DISTRES)
 	mkdir $(BUILDDIR)\$(ZIPDIR)
-	cp $(TGT) $(BUILDDIR)\$(ZIPDIR)
-	cp -R $(DISTRES) $(BUILDDIR)\$(ZIPDIR)
-	(cd $(BUILDDIR) && zip -r -m $(ZIPFILE) $(ZIPDIR))
+	copy $(TGT) $(BUILDDIR)\$(ZIPDIR)
+	cmd /C for %I in ( $(DISTRES) ) do copy %I $(BUILDDIR)\$(ZIPDIR)
+	(cd $(BUILDDIR) && tar.exe -acf $(ZIPFILE) $(ZIPDIR))
+	rmdir /s /q $(BUILDDIR)\$(ZIPDIR)
 
 $(MSI): $(TGT) $(DISTRES)
 	mkdir $(BUILDDIR)\$(ZIPDIR)
-	cp $(TGT) $(BUILDDIR)\$(ZIPDIR)
-	cp -R $(DISTRES) $(BUILDDIR)\$(ZIPDIR)
+	copy $(TGT) $(BUILDDIR)\$(ZIPDIR)
+	cmd /C for %I in ( $(DISTRES) ) do copy %I $(BUILDDIR)\$(ZIPDIR)
 	$(WIXCANDLE) -arch x64 -dProductVersion="$(APPVERSION)" -out $(BUILDDIR)\$(ZIPDIR)\$(WIXBASE).wixobj $(WXS)
 	(cd $(BUILDDIR)\$(ZIPDIR) && $(WIXLIGHT) -ext WixUIExtension -cultures:en-us -out $(WIXBASE).msi $(WIXBASE).wixobj)
-	mv $(BUILDDIR)\$(ZIPDIR)\$(WIXBASE).msi $(BUILDDIR)
+	move $(BUILDDIR)\$(ZIPDIR)\$(WIXBASE).msi $(BUILDDIR)
 	rmdir /s /q $(BUILDDIR)\$(ZIPDIR)
 
 # | (pipe) operator causes make to just check for existence instead of timestamp

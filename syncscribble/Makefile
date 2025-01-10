@@ -76,8 +76,8 @@ INCSYS = ../pugixml/src ../stb
 MAJORVER := 3
 MINORVER := 0
 #HGREV := $(shell hg id -n)
-GITREV := $(shell git rev-parse --short HEAD)
-GITCOUNT := $(shell git rev-list --count HEAD)
+GITREV := $(shell git rev-parse --short HEAD || wsl git rev-parse --short HEAD)
+GITCOUNT := $(shell git rev-list --count HEAD || wsl git rev-list --count HEAD)
 APPVERSION := $(MAJORVER).$(MINORVER).$(GITCOUNT)
 # defines for pugixml config instead of forking whole repo; use external STB libs in nanovg
 DEFS = PUGIXML_NO_XPATH PUGIXML_NO_EXCEPTIONS
@@ -126,11 +126,11 @@ FORCECPP = ../layout/layout.obj
 ZIPFILE = write$(GITCOUNT).zip
 ZIPDIR = Write
 DISTRES = \
-  ../scribbleres/fonts/Roboto-Regular.ttf \
-  ../scribbleres/fonts/DroidSansFallback.ttf \
-  ../scribbleres/Intro.svg
+  ..\scribbleres\fonts\Roboto-Regular.ttf \
+  ..\scribbleres\fonts\DroidSansFallback.ttf \
+  ..\scribbleres\Intro.svg
 # installer
-WXS = windows/InstallWrite.wxs
+WXS = windows\InstallWrite.wxs
 
 include Makefile.msvc
 
