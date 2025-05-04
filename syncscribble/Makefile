@@ -35,7 +35,8 @@ SOURCES = \
   syncdialog.cpp \
   touchwidgets.cpp \
   mainwindow.cpp \
-  scribbleapp.cpp
+  scribbleapp.cpp \
+  shaperecognizer.cpp
 
 SOURCES += \
   ../ugui/svggui.cpp \
@@ -99,7 +100,7 @@ DEFS += _USE_MATH_DEFINES UNICODE NOMINMAX FONS_WPATH
 
 # only dependencies under this path will be tracked in .d files; note [\\] must be used for "\"
 # ensure that no paths containing spaces are included
-DEPENDBASE ?= c:[\\]temp[\\]styluslabs
+DEPENDBASE ?= \\wsl.localhost\Ubuntu\home\zaitam\dev\forks\Write
 
 # shell32 for ShellExecute; user32 for clipboard fns; libs below opengl32.lib needed only for static SDL
 LIBS = \
@@ -172,7 +173,6 @@ IOSRES = \
   ../scribbleres/Intro.svg
 INFOPLIST = ios/Info.plist
 PLISTENV = CURRENT_PROJECT_VERSION=1.5 MARKETING_VERSION=1.5
-
 # Xcode generated provisioning profile for free account is per-app and expires every 7 days; w/ paid account, 1-year profile w/ all apps (com.styluslabs.*) can be generated
 # For signing, we expect a valid .xcent file - the value for com.apple.developer.team-identifier can be found under the "Organizational Unit" field in "Get Info" for the iPhone Developer certificate in the Keychain Access app
 # run `security find-identity -v -p codesigning` to get argument for codesign --sign
