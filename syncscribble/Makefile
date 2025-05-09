@@ -100,7 +100,7 @@ DEFS += _USE_MATH_DEFINES UNICODE NOMINMAX FONS_WPATH
 
 # only dependencies under this path will be tracked in .d files; note [\\] must be used for "\"
 # ensure that no paths containing spaces are included
-DEPENDBASE ?= \\wsl.localhost\Ubuntu\home\zaitam\dev\forks\Write
+DEPENDBASE ?= c:[\\]temp[\\]styluslabs
 
 # shell32 for ShellExecute; user32 for clipboard fns; libs below opengl32.lib needed only for static SDL
 LIBS = \
